@@ -1,6 +1,0 @@
-host SERVER {
-  hardware ethernet 08:60:6e:d6:5e:ff;
-  fixed-address 192.168.38.5;}
-}
-
-systemctl restart isc-dhcp-server
