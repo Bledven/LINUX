@@ -1,3 +1,8 @@
+Scanning WI-FI
+apt install wireless-tools
+iwlist wlp2s0b1 scan | grep ESSID
+
+
 network:
   version: 2
   renderer: networkd
