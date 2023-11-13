@@ -1,0 +1,15 @@
+ enp0s3:
+      dhcp4:no
+      macaddress: bb:11:13:ab:ff:32
+      addresses: [10.10.10.2/24]
+      gateway4: 10.10.10.1
+      nameservers:
+        addresses: 8.8.8.8
+
+network: — это блок начало конфигурации.
+renderer: networkd — здесь мы указываем сетевой менеджер который будем использовать, это либо networkd либо NetworkManager
+version: 2 — тут, как я понял, версия YAML.
+ethernets: — этот блок говорит о том, что будем конфигурировать ethernet протокол.
+enps0f0: — указываем какой сетевой адаптер будем конфигурировать.
+dhcp4:no — отключаем DHCP IPv4, для IPv6, dhcp6 соответственно
+nameservers: - DNS - сервера
