@@ -1,0 +1,5 @@
+Error in network definition *.yaml line xxx column yyy: expected mapping 
+ошибка синтаксиса
+
+wpa_supplicant: No such file or directory
+apt install wpasupplicant
