@@ -6,7 +6,16 @@ post-up /sbin/iptables -t nat -A POSTROUTING -s 192.168.99.0/24 -o eth3 -j SNAT 
 nano /etc/rc.local
 /sbin/iptables -t nat -A POSTROUTING -s 192.168.99.0/24 -o eth3 -j SNAT --to-source 172.16.90.1-172.16.90.5 --persistent
 
-#3
+#3(Debian)
 sudo iptables-save > /etc/iptables.up.rules
 sudo nano /etc/networks/interfaces 
 pre-up iptables-restore < /etc/iptables.up.rules
+
+#4
+nano /etc/network/if-pre-up.d/iptables
+
+#!/bin/sh
+iptables-restore < /etc/iptables.up.rules
+exit 0
+
+chmod +x  /etc/network/if-pre-up.d/iptables
