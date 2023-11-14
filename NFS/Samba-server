@@ -24,6 +24,8 @@ guest ok = no
 browsable = yes
 writable = yes
 
+testparm -s
+
 service smbd restart
 
 iptables -A INPUT -p tcp -m tcp --dport 445 –s 10.0.0.0/24 -j ACCEPT
