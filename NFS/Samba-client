@@ -9,4 +9,7 @@ apt install cifs-utils
 
 nano /etc/fstab
 //192.168.0.39/shared_data /mnt/samba cifs username=myusername,password=mypassword 0 0
+#with space 
+//192.168.0.39/Network /mnt/samba cifs username=Network\040admin,password=P@ssw0rd 0 0
+
 mount -a
