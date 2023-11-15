@@ -1,0 +1,1 @@
+scp /home/test.txt root@123.123.123.123:/directory
