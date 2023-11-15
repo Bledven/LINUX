@@ -1,4 +1,4 @@
 https://www.linode.com/docs/guides/how-to-install-moodle-on-ubuntu-22-04/
 
 git clone https://github.com/moodle/moodle.git
-если не работает sudo git clone git://git.moodle.org/moodle.git
+ВМЕСТО (sudo git clone git://git.moodle.org/moodle.git)
