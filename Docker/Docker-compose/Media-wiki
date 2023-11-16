@@ -48,7 +48,7 @@ volumes:
     driver: local
 ###/
 
-docker-compose up
+docker-compose up -d
 
 На сайте указываем
 База данных - db
