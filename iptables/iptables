@@ -1,5 +1,6 @@
 iptables -A INPUT -i eth1 -p tcp -s 1.1.1.0/30 --dport 2222 -j DROP // Запрет на порт и ip
 iptables -t nat -A PREROUTING -p tcp -d 192.168.10.1 --dport 2222 -j  DNAT --to-destination 192.168.20.2:22 // Проброс портов
+iptables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT // Включение интернета
 iptables -A INPUT -p ospf -j ACCEPT // Разрешение на ospfd 
 iptables -A INPUT -p gre -j ACCEPT // Разрешение gre
 iptables -A INPUT -p udp -m multiport --dports 500,4500 -j ACCEPT // Разрешение IPSEK
