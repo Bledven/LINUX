@@ -15,3 +15,20 @@ freshclam
 systemctl start clamav-freshclam  
 clamscan /home/user/"файл"
 
+
+Автозапуск в crontab
+
+nano /usr/local/sbin/clam_www_scan.sh
+
+/##
+#!/bin/bash
+SCAN_DIR="/var/www"
+LOG_FILE="/var/log/clamav/manual_clamscan.log"
+/usr/bin/clamscan -i -r $SCAN_DIR >> $LOG_FILE
+##/
+
+chmod +x /usr/local/sbin/clam_www_scan.sh
+touch /var/log/clamav/manual_clamscan.log
+
+nano /etc/crontab
+55      23      *       *       *       /usr/local/sbin/clam_www_scan.sh > /dev/null
