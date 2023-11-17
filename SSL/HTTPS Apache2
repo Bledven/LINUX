@@ -10,6 +10,9 @@ SSLCertificateFile    /etc/ssl/certs/server.pem
 SSLCertificateKeyFile /etc/ssl/private/server.key
 ##/
 
+cp /tmp/ca.crt /usr/local/share/ca-certificates/ && update-ca-certificates - Debian/Ubuntu (импорт сертификата для доверия к ЦС)
+sudo cp /tmp/ca.crt /etc/pki/ca-trust/source/anchors/ && update-ca-trust - RedHat
+
 sudo service apache2 restart
 
 a2enmod alias
