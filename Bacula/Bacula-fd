@@ -1,0 +1,22 @@
+nano /etc/bacula/bacula-fd
+
+Director {
+    Name = bacula-dir
+    Password = "1" 
+  }
+
+FileDaemon {                         
+    Name = bacula-fd
+    FDport = 9102               
+    WorkingDirectory = /var/lib/bacula
+    Pid Directory = /var/run/bacula
+    Maximum Concurrent Jobs = 20
+    FDAddress = 10.0.0.25
+  }
+Messages {
+    Name = Standard
+    director = bacula-dir = all, !skipped, !restored
+  }
+
+apt-get remove bacula-sd
+/etc/init.d/bacula-sd stop
