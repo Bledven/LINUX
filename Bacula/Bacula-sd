@@ -10,3 +10,18 @@ Director {
     Name = bacula-dir
     Password = "1" 
  }
+
+Device {
+Name = FileStorage
+Media Type = File
+Archive Device = /back
+LabelMedia = yes;                   
+Random Access = Yes;
+AutomaticMount = yes;           
+RemovableMedia = no;
+AlwaysOpen = no;
+  }
+Messages {
+    Name = Standard
+    director = bacula-dir = all
+ }
