@@ -1,0 +1,94 @@
+apt install bacula
+
+nano /etc/bacula/bacula-dir.conf
+
+Director {                           
+    Name = bacula-dir
+    DIRport = 9101             
+    QueryFile = "/etc/bacula/scripts/query.sql" 
+    WorkingDirectory = "/var/lib/bacula" 
+    PidDirectory = "/run/bacula" 
+    Maximum Concurrent Jobs = 1
+    Password = "1"         # Console password
+    Messages = Daemon
+    DirAddress = 10.0.0.23
+ }
+Job {
+    Name = "BackupClient1" 
+    Type = Backup
+    Client = bacula-fd
+    FileSet="Catalog" 
+    Schedule = "DailyCycle" 
+    Messages = Standard
+    Pool = Default
+    Write Bootstrap = "/var/lib/bacula/%n.bsr" 
+    Priority = 1
+ }
+Job {
+    Name = "RestoreFiles" 
+    Type = Restore
+    Client=bacula-fd
+    FileSet="Catalog" 
+    Storage = File
+    Pool = Default
+    Messages = Standard
+    Where = /home2
+}
+FileSet {
+     Name = "Catalog" 
+     Include {
+     Options {
+     signature = MD5
+     compression = GZIP
+     aclsupport = yes
+     xattrsupport = yes
+}
+     File = /home
+   }
+
+Storage {
+    Name = File
+    Address = 10.0.0.24                
+    SDPort = 9103
+    Password = "1" 
+    Device = FileStorage
+    Media Type = File
+ }
+Catalog {
+    Name = MyCatalog
+    dbname = "bacula"; DB Address = "10.0.0.23"; dbuser = "bacula"; dbpassword =     "bacula"; DB PORT = "5433" 
+ }
+Messages {
+  Name = Standard
+    mailcommand = "/usr/sbin/bsmtp -h localhost -f \"\(Bacula\) \<%r\>\" -s \"Bacula: %t %e of %c %l\" %r" 
+    operatorcommand = "/usr/sbin/bsmtp -h localhost -f \"\(Bacula\) \<%r\>\" -s \"Bacula: Intervention needed for %j\" %r" 
+    mail = root = all, !skipped
+    operator = root = mount
+    console = all, !skipped, !saved
+    append = "/var/log/bacula/bacula.log" = all, !skipped
+    catalog = all
+Messages {
+    Name = Daemon
+    mailcommand = "/usr/sbin/bsmtp -h localhost -f \"\(Bacula\) \<%r\>\" -s \"Bacula daemon message\" %r" 
+    mail = root = all, !skipped
+    console = all, !skipped, !saved
+    append = "/var/log/bacula/bacula.log" = all, !skipped
+}
+Pool {
+    Name = Default
+    Pool Type = Backup
+    Recycle = yes                      
+    AutoPrune = yes                     
+    Volume Retention = 1 month         
+    Maximum Volume Jobs = 5
+    Maximum Volumes = 32
+    Storage = File
+    Label Format = "volume-"
+}
+Director {
+      Name = bacula-dir
+      DIRport = 9101
+      address = 10.0.0.23
+      Password = "1" 
+}
+
