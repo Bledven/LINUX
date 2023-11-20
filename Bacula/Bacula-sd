@@ -1,0 +1,12 @@
+Storage {                             
+    Name = bacula-sd
+    DPort = 9103                  
+    WorkingDirectory = "/var/lib/bacula" 
+    Pid Directory = "/var/run/bacula" 
+    Maximum Concurrent Jobs = 20
+    SDAddress = 10.0.0.24
+}
+Director {
+    Name = bacula-dir
+    Password = "1" 
+ }
