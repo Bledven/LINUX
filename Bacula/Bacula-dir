@@ -94,3 +94,5 @@ Director {
       Password = "1" 
 }
 
+apt-get remove bacula-fd
+/etc/init.d/bacula-fd stop
