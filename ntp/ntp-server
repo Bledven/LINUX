@@ -7,6 +7,10 @@ server 1.ubuntu.pool.ntp.org iburst prefer
 server 2.ubuntu.pool.ntp.org iburst
 server 3.ubuntu.pool.ntp.org iburst
 
+# Local Clock — если теряем спутники, то снижаем stratum до 10
+server 127.127.1.0
+fudge 127.127.1.0 stratum 10
+
 restrict −4 default kod notrap nomodify nopeer noquery
 restrict −6 default kod notrap nomodify nopeer noquery
 
