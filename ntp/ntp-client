@@ -1,0 +1,10 @@
+sudo apt-get install ntp
+
+sudo nano /etc/ntp.conf
+
+server ntp-host prefer iburst
+
+sudo service ntp restart
+
+ntpq -ps
+ntpdate ntp-host
