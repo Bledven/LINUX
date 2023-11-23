@@ -1,0 +1,43 @@
+sudo apt-get install ntp
+
+sudo nano /etc/ntp.conf
+
+server 0.ubuntu.pool.ntp.org iburst
+server 1.ubuntu.pool.ntp.org iburst prefer
+server 2.ubuntu.pool.ntp.org iburst
+server 3.ubuntu.pool.ntp.org iburst
+
+restrict −4 default kod notrap nomodify nopeer noquery
+restrict −6 default kod notrap nomodify nopeer noquery
+
+#notrap — запрет на прием управляющих команд;
+#nomodify — запрет команд, которые изменяют состояние или способны это делать;
+#nopeer — запрет синхронизации с хостом;
+#4 — если используется протокол IPv4;
+#6 — если используется протокол IPv6.
+
+restrict 192.168.1.0 mask 255.255.255.0 nomodify notrap
+
+restrict 127.0.0.1
+restrict ::1
+
+
+sudo service ntp restart
+sudo service ntp status
+
+
+ntpq -pn
+refid — вышестоящий сервер (тот, от которого сервер из предыдущей графы получает синхронизацию);
+st — уровень (stratum) сервера;
+t — тип пира (u — unicast, m — multicast);
+when — время последней синхронизации;
+poll — время в секундах, за которое демон NTP синхронизируется с пиром;
+reach — состояние доступности сервера;
+delay — время задержки ответа от сервера;
+offset — разница времени между нашим сервером и сервером синхронизации; положительное значение этого параметра означает, что наши часы спешат, отрицательное — что отстают;
+jitter — смещение времени на удаленном сервере.Слева от адреса сервера могут быть указаны следующие символы:
+
+* сервер выбран для синхронизации;
++ сервер, пригодный для обновления (с которым можно синхронизироваться);
+— с сервером синхронизироваться не рекомендуется;
+х сервер недоступен.
