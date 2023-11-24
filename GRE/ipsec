@@ -2,7 +2,11 @@ apt install strongswan
 
 nano /etc/ipsec.conf
 
-56-sha256-ecp256-modp3072
+conn sts-base
+     fragmentation=yes
+     dpdaction=restart
+     ike=aes256-sha256-modp3072
+     esp=aes256-sha256-ecp256-modp3072
      keyexchange=ikev2
      type=transport
      keyingtries=%forever
