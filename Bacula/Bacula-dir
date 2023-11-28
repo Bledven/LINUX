@@ -87,6 +87,9 @@ Pool {
     Storage = File
     Label Format = "volume-"
 }
+
+nano /etc/bacula/bconsole.conf
+
 Director {
       Name = bacula-dir
       DIRport = 9101
