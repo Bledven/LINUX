@@ -1,0 +1,23 @@
+git clone http://gitlab.bacula.org/bacula-community-edition/bacula-community.git
+
+CFLAGS="-g -O2" \
+          ./configure \
+            --sbindir=$HOME/bacula/bin \
+            --sysconfdir=$HOME/bacula/bin \
+            --with-pid-dir=$HOME/bacula/bin/working \
+            --with-subsys-dir=$HOME/bacula/bin/working \
+            --enable-smartalloc \
+            --with-mysql \
+            --with-working-dir=$HOME/bacula/bin/working \
+            --with-dump-email=your@address.com \
+            --with-job-email=your@address.com \
+            --with-smtp-host=localhost
+
+
+make
+apt install g++ mysql-server libmysqlclient-dev 
+make install
+src/cats/make_bacula_tables
+cd $HOME/bacula/bin
+./bacula start
+./bconsole
