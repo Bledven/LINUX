@@ -1,36 +1,71 @@
-apt-get install -y samba samba-client
+sudo apt -y update && sudo apt -y install samba
 
-cp /etc/samba/smb.conf /etc/samba/smb.conf.bak
+sudo systemctl enable smbd
+sudo systemctl start smbd
 
-mkdir -p /samba/public
+sudo mkdir -p /data/guestshare
+sudo mkdir -p /data/pwd
+sudo mkdir -p /data/restricted
 
-cd /samba
-chmod -R 0755 public
+##########Настройка анонимного доступа##########
+sudo chmod 777 /data/guestshare
+sudo nano /etc/samba/smb.conf
+/#
+# Guest access                      
+[guestshare]
+   path = /data/guestshare
+   writable = yes
+   guest ok = yes
+   guest only = yes
+   create mode = 0777
+   directory mode = 0777
+#/
 
-mkdir /samba/private
+[guestshare]	Имя smb ресурса
+path	Физическое расположение директории на сервере
+writable	Запись в директорию разрешена, если установлено значение yes
+guest ok	Анонимный доступ разрешен, если установлено значение yes
+guest only	Если установлен параметр yes, то разрешен только анонимный доступ к ресурсу
+create mode	Все новые файлы будут создаваться с указанными разрешениями (777 в моем случае)
+directory mode	Все новые директории будут создаваться с указанными разрешениями (777 в моем случае)
+public	Если установлено значение “no”, то публичный доступ к ресурсу запрещен
 
-groupadd smbgrp
+##########Настройка доступа по логину и паролю##########
+sudo chmod 777 /data/pwd
+sudo nano /etc/samba/smb.conf
+/#
+# Password access     
+[pwd]
+   path = /data/pwd
+   writable = yes
+   guest ok = no
+   public = no
+   create mode = 0777
+   directory mode = 0777
+#/
 
-useradd user1
-usermod -aG smbgrp user1
-chgrp smbgrp /samba/private
-smbpasswd -a user1
+sudo useradd user1 && sudo passwd user1
+sudo smbpasswd -a user1
 
-nano /etc/samba/smb.conf
-[Admin_Files]
-path = /samba/private
-valid users = @smbgrp
-guest ok = no
-browsable = yes
-writable = yes
+##########Настройка ограниченного доступа##########
+sudo useradd -M -d /home/user6 -s /usr/sbin/nologin user6 && sudo passwd user6
+sudo mkdir /home/user6
+sudo chown user6:user6 /home/user6
+sudo chmod 2770 /home/user6
+sudo smbpasswd -a user6
+sudo smbpasswd -e user6
+sudo chown user6:user6 /data/restricted/
+sudo chmod 770 /data/restricted/
 
-testparm -s
-
-service smbd restart
-
-iptables -A INPUT -p tcp -m tcp --dport 445 –s 10.0.0.0/24 -j ACCEPT
-iptables -A INPUT -p tcp -m tcp --dport 139 –s 10.0.0.0/24 -j ACCEPT
-iptables -A INPUT -p udp -m udp --dport 137 –s 10.0.0.0/24 -j ACCEPT
-iptables -A INPUT -p udp -m udp --dport 138 –s 10.0.0.0/24 -j ACCEPT
-
-
+sudo nano /etc/samba/smb.conf
+/#
+# Restricted access                      
+[restricted]
+   path = /data/restricted
+   read only = no
+   browseable = yes
+   create mode = 0660
+   directory mode = 2770
+   valid users = user6
+#/
+sudo systemctl restart smbd nmbd
