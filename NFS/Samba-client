@@ -3,8 +3,10 @@ sudo apt-get install smbclient
 mount -t cifs -o username=<Пользователь>,password= //<IP-адрес>/<Общий каталог> <Точка монтирования>
 mount -t cifs -o username=Admin,password=P@ssw0rd //192.168.10.3/Admin_Files /mnt/Admin_Files
 
-#Automount fstab
+#Desktop Ubuntu
+smb://192.168.10.1/Admnin_Files
 
+#Automount fstab
 apt install cifs-utils
 
 nano /etc/fstab
