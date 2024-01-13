@@ -41,7 +41,7 @@ sudo ./backup.sh
 
 #Run with cron
 sudo crontab -e
-0 0 * * * bash /usr/local/bin/backup.sh
+0 0 * * * bash /home/user/backup.sh
 
 Восстановление из архива:
 tar -tzvf /mnt/backup/host-Monday.tgz (Просмотр содержимого)
