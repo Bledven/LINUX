@@ -1,0 +1,5 @@
+vim /etc/bashrc.d/editor.sh
+
+export EDITOR=vim
+export GIT_EDITOR=vim
+
